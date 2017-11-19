@@ -46,17 +46,16 @@ public class SignController extends HttpServlet{
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");		
 		SignService sign = new SignService();
-		JSONObject result = new JSONObject();//ë°˜í™˜?•  ê²°ê³¼
+		JSONObject result = new JSONObject();//ë°˜í™˜?ï¿½ï¿½ ê²°ê³¼
 		
-		//?š”ì²?ë¶„ì„
+		//?ï¿½ï¿½ï¿½?ë¶„ì„
 		String[] uri = request.getRequestURI().split("/");
 		String process = uri[uri.length-1];
 		
-		String path = request.getContextPath();///study_jsp
-		String msg = "";//?‚¬?š©??—ê²? ì¶œë ¥?•  ë©”ì‹œì§?
-		Boolean isSuccess = false; //?„±ê³µì—¬ë¶?
+		String path = request.getContextPath();
+		String msg = "";
+		Boolean isSuccess = false; 
 
-		//?œ ?? ? •ë³?
 		String param = request.getParameter("param");
 		Map<String, String> userInfo = new HashMap<String, String>();
 		JSONObject jsonObj =null;
@@ -68,24 +67,25 @@ public class SignController extends HttpServlet{
 			userInfo.put("USER_PW",jsonObj.get("USER_PW").toString());
 		}
 		
-		//ê¸°ëŠ¥?ˆ˜?–‰
-		if(process.equals("main")){//ë©”ì¸ ?˜?´ì§?ë¡? ?´?™
+		
+		if(process.equals("main")){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login/signIn.jsp");
 			dispatcher.forward(request, response);			
 			
-		}else if(process.equals("form")){//?šŒ?›ê°??… ?¼?œ¼ë¡? ?´?™
+		}else if(process.equals("form")){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login/signUp.jsp");
 			dispatcher.forward(request, response);			
 			
 		}else if(process.equals("signin")){
-			if(!sign.doLogin(userInfo)){
-				msg ="?•„?´?”” ?˜?Š” ?Œ¨?Š¤?›Œ?“œê°? ë§ì? ?•Š?Šµ?‹ˆ?‹¤";
+			if(false) {
+			//if(!sign.doLogin(userInfo)){
+				msg ="?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ë§ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½";
 			}else{
 				request.getSession().setAttribute("USER_ID", userInfo.get("USER_ID"));
 				request.getSession().setAttribute("USER_NM", userInfo.get("USER_NM"));
 				request.getSession().setAttribute("EMAIL", userInfo.get("EMAIL"));
 				
-				msg = userInfo.get("USER_NM")+"?‹˜ ë°©ë¬¸?„ ?™˜?˜?•©?‹ˆ?‹¤.";
+				msg = userInfo.get("USER_NM")+"?ï¿½ï¿½ ë°©ë¬¸?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½.";
 				isSuccess = true;
 			}			
 			
@@ -96,14 +96,14 @@ public class SignController extends HttpServlet{
 			System.out.println(userInfo);
 			
 			if(!sign.createAccount(userInfo)) {
-				msg ="?´ë¯? ì¡´ì¬?•˜?Š” ?•„?´?””?…?‹ˆ?‹¤.";
+				msg ="?ï¿½ï¿½ï¿½? ì¡´ì¬?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½.";
 			} else {
-				msg ="?„±ê³µì ?œ¼ë¡? ê°??…?˜?—ˆ?Šµ?‹ˆ?‹¤";	
+				msg ="?ï¿½ï¿½ê³µì ?ï¿½ï¿½ï¿½? ï¿½??ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½";	
 				isSuccess = true;
 			}
 			
 		}else{
-			msg ="?˜ëª»ëœ ? ‘ê·¼ì…?‹ˆ?‹¤.";
+			msg ="?ï¿½ï¿½ëª»ëœ ?ï¿½ï¿½ê·¼ì…?ï¿½ï¿½?ï¿½ï¿½.";
 		}
 		
 		if(isSuccess == false) {

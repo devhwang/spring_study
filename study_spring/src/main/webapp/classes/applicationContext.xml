@@ -12,15 +12,30 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<context:annotation-config></context:annotation-config>
-
+	
+	<context:property-placeholder location="classpath:classes/db.properties"/>
+	
+<!--  	
 	<bean id="dbConnectionPool" class="co.kr.ucs.spring.dao.DBConnectionPool">
 		<constructor-arg index="0" value="jdbc:oracle:thin:@220.76.203.39:1521:UCS"/>
 		<constructor-arg index="1" value="UCS_STUDY"/>
 		<constructor-arg index="2" value="qazxsw"/>
 		<constructor-arg index="3" value="1"/>
 		<constructor-arg index="4" value="10"/>
-	</bean>
+	</bean>  
+-->
 	
 	<bean id="signService" class="co.kr.ucs.spring.service.SignService"/> 
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${db.driverClass}"/>
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg index="0" ref="dataSource"/>
+	</bean>
 
 </beans>
