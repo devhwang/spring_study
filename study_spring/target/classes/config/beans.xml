@@ -13,19 +13,18 @@
 
 	<context:annotation-config></context:annotation-config>
 	
-	<context:property-placeholder location="classpath:classes/db.properties"/>
+	<!-- classpath를 이용한 상대 경로 -->
+	<context:property-placeholder location="classpath:config/db.properties"/> 
+
 	
-<!--  	
-	<bean id="dbConnectionPool" class="co.kr.ucs.spring.dao.DBConnectionPool">
-		<constructor-arg index="0" value="jdbc:oracle:thin:@220.76.203.39:1521:UCS"/>
-		<constructor-arg index="1" value="UCS_STUDY"/>
-		<constructor-arg index="2" value="qazxsw"/>
-		<constructor-arg index="3" value="1"/>
-		<constructor-arg index="4" value="10"/>
-	</bean>  
--->
+	<!-- 절대 경로로 지정할때는 다음과 같이 지정한다 --> 
+	<!-- <context:property-placeholder location="file:src/main/resources/config/db.properties"/>-->
 	
-	<bean id="signService" class="co.kr.ucs.spring.service.SignService"/> 
+	
+	
+	<context:component-scan base-package="co.kr.ucs.spring" />
+	<!-- component-scan으로 대체 -->
+	<!-- <bean id="signService" class="co.kr.ucs.spring.service.SignService"/> -->
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="${db.driverClass}"/>
@@ -33,7 +32,15 @@
 		<property name="username" value="${db.username}"/>
 		<property name="password" value="${db.password}"/>
 	</bean>
-	
+	 
+	 <!-- 
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@220.76.203.39:1521:UCS"/>
+		<property name="username" value="UCS_STUDY"/>
+		<property name="password" value="qazxsw"/>
+	</bean> -->
+	 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg index="0" ref="dataSource"/>
 	</bean>

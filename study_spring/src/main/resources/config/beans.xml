@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<context:annotation-config></context:annotation-config>
+	
+	<!-- classpath를 이용한 상대 경로 -->
+	<context:property-placeholder location="classpath:config/db.properties"/> 
+
+	
+	<!-- 절대 경로로 지정할때는 다음과 같이 지정한다 --> 
+	<!-- <context:property-placeholder location="file:src/main/resources/config/db.properties"/>-->
+	
+	
+	
+	<context:component-scan base-package="co.kr.ucs.spring" />
+	<!-- component-scan으로 대체 -->
+	<!-- <bean id="signService" class="co.kr.ucs.spring.service.SignService"/> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${db.driverClass}"/>
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+	 
+	 <!-- 
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@220.76.203.39:1521:UCS"/>
+		<property name="username" value="UCS_STUDY"/>
+		<property name="password" value="qazxsw"/>
+	</bean> -->
+	 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg index="0" ref="dataSource"/>
+	</bean>
+
+</beans>

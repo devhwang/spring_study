@@ -10,12 +10,12 @@ import co.kr.ucs.spring.service.SignService;
 
 import static org.junit.Assert.*;
 
-import java.sql.SQLException;
 import java.util.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="file:src/main/webapp/classes/applicationContext.xml")
+//@ContextConfiguration(locations="file:src/main/webapp/classes/applicationContext.xml")
+@ContextConfiguration(locations="classpath:config/beans.xml")
 public class SignServiceTest {
 	
 	@Autowired
@@ -25,39 +25,45 @@ public class SignServiceTest {
 	boolean isSuccess;
 	
 	public SignServiceTest() {
-		//À¯Àú Á¤º¸ ¼¼ÆÃ
 		userInfo = new HashMap();
-		userInfo.put("USER_ID", "hwangkiha");
-		userInfo.put("USER_NM", "Å×½ºÆ®");
+		userInfo.put("USER_ID", "hwangkiha111");
+		userInfo.put("USER_NM", "í…ŒìŠ¤íŠ¸");
 		userInfo.put("USER_PW", "1234");
 		userInfo.put("EMAIL", "test@test.com");
 	}
-
-/*	@Test
-	public void doLoginTest() throws Exception {
-
-		//ºñ¹Ğ¹øÈ£¸¦ ¸Â¾ÒÀ» °æ¿ì °¡Á¤
-		isSuccess = signService.doLogin(userInfo);
-		assertEquals(isSuccess, true);
-		
-		//ºñ¹Ğ¹øÈ£¸¦ Æ²·ÈÀ» °æ¿ì¸¦ °¡Á¤
-		userInfo.put("USER_PW", "12345");
-		isSuccess = signService.doLogin(userInfo);
-		assertEquals(isSuccess, false);
-	}
-	*/
+	
 	@Test
 	public void createAccountTest() throws Exception {
 				
-		isSuccess = signService.createAccount(userInfo);//ÀÌ¹Ì ÀÖ´Â Á¤º¸ÀÌ¹Ç·Î ½ÇÆĞ
+		isSuccess = signService.createAccount(userInfo);
 		assertEquals(isSuccess, false);
 		
-		//¾ÆÀÌµğ ·£´ı ¼¼ÆÃ
 		Random rnd = new Random();
 		String randomId = rnd.nextInt(10000)+"";
 		
 		userInfo.put("USER_ID", randomId);
-		isSuccess = signService.createAccount(userInfo);//¾ÆÀÌµğ »ı¼º ¼º°ø
+		isSuccess = signService.createAccount(userInfo);
 		assertEquals(isSuccess, true);
+	}
+	
+	@Test
+	public void doLoginTest() throws Exception {
+		if(signService.isCorrectPassword(userInfo)) {
+			System.out.println("ì˜¬ë°”ë¥¸ íŒ¨ìŠ¤ì›Œë“œ");
+		}else {
+			System.out.println("ì˜¬ë°”ë¥´ì§€ ì•Šì€ íŒ¨ìŠ¤ì›Œë“œ");
+		}		
+	}
+	
+	@Test
+	public void getUserExistTest() throws Exception {
+		
+		if(signService.isUniqueId(userInfo)) {
+			System.out.println("ìœ ì¼í•œ ì•„ì´ë””");
+		}else{
+			System.out.println("ì¤‘ë³µëœ ì•„ì´ë””");
+		};
+		
+		
 	}
 }
