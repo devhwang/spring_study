@@ -63,7 +63,10 @@ public class SignServiceTest {
 		}else{
 			System.out.println("중복된 아이디");
 		};
-		
-		
+	}
+	
+	
+	public void afterThrowingTest() throws Exception {		
+		signService.afterThrowing();
 	}
 }

@@ -49,7 +49,7 @@ public class SignService {
 	   }
 	   
 	   StringBuffer sql = new StringBuffer();
-	   sql.append("INSERT INTO CM_USER(USER_ID,USER_PW,USER_NM,EMAIL) VALUES (?,?,?,?)");
+	   sql.append("INSERT INTO CM_USER(USER_ID,USER_PW,USER_NM,EMAIL) VALUES (?,?,?,?);");
             
 	   jdbcTemplate.update(sql.toString(), 
 			   new Object[] {(String) userInfo.get("USER_ID"),
@@ -93,6 +93,14 @@ public class SignService {
 		   return true;
 	   }	   
 	   return false;
+   }
+   
+   public void afterThrowing() throws Exception{	   
+	   try {
+		   throw new Exception("AfterThrowing 어드바이스 테스트입니다");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}   
    }
 
 }

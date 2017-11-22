@@ -6,9 +6,11 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<context:annotation-config></context:annotation-config>
@@ -44,5 +46,14 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg index="0" ref="dataSource"/>
 	</bean>
-
+	<aop:aspectj-autoproxy />
+	
+	<aop:config>
+		<aop:aspect id="performanceAspect" ref="performanceAdvice">
+			<aop:around pointcut="execution(public * co.kr.ucs.spring.service..*(..)))" method="trace" /><!-- 메서드 호출 이전, 이후 예외발생 등 모든 시점에 적용가능한 어드바이스를 정의한다 -->
+		</aop:aspect>		
+	</aop:config>
+	
+	<bean id="performanceAdvice" class="co.kr.ucs.spring.aop.PerformanceAdvice" />
+	
 </beans>
