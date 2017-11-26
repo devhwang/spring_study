@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	
+	<sql id="searchCondition">
+		<if test="KEYWORD != null and KEYWORD == ''">
+             <choose>
+              	<when test="TYPE == TITLE">
+              		AND B.TITLE LIKE #{KEYWORD}
+              	</when>
+              	<when test="TYPE == NAME">
+              		AND U.USER_NM LIKE #{KEYWORD}
+            	</when>
+             </choose>
+        </if>
+	</sql>
+	
+	<select id="selectRowCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM BOARD B, CM_USER U
+		WHERE B.REG_ID = U.USER_ID
+        <include refid="searchCondition"/>
+	</select>
+
+    <select id="selectBoardList" parameterType="HashMap" resultType="HashMap">
+		 SELECT (SELECT COUNT(*) FROM BOARD B, CM_USER U WHERE B.REG_ID = U.USER_ID(+) <include refid="searchCondition"/>) AS TOTCNT, Y.RNUM, Y.SEQ, Y.TITLE, Y.CONTENTS, Y.REG_ID, TO_CHAR(Y.REG_DATE,'yyyy-mm-dd') AS REG_DATE, Y.MOD_ID, Y.MOD_DATE, Y.REG_NM
+          FROM(
+             SELECT ROWNUM AS RNUM, X.SEQ, X.TITLE, X.CONTENTS, X.REG_ID, X.REG_DATE, X.MOD_ID, X.MOD_DATE, REG_NM
+             FROM(
+                   SELECT B.SEQ, B.TITLE, B.CONTENTS, B.REG_ID, B.REG_DATE, B.MOD_ID, B.MOD_DATE, U.USER_NM AS REG_NM
+                   FROM BOARD B, CM_USER U
+                   WHERE B.REG_ID = U.USER_ID(+)
+                   <include refid="searchCondition"/>
+                   ORDER BY SEQ DESC)X
+             WHERE ROWNUM &lt;= #{MAXROWNUM} )Y
+          WHERE Y.RNUM &gt;=#{MINROWNUM}
+	</select>
+	
+	<select id="selectBoardInfo" parameterType="HashMap" resultType="HashMap">
+         SELECT A.SEQ, A.TITLE, A.CONTENTS, A.REG_ID, TO_CHAR(A.REG_DATE,'yyyy-mm-dd') REG_DATE, A.MOD_DATE, B.USER_NM AS REG_NM
+         FROM BOARD A, CM_USER B
+         WHERE A.REG_ID = B.USER_ID
+         AND SEQ = #{SEQ}
+	</select>
+
+	<update id="insertBoardInfo" parameterType="HashMap">
+		INSERT INTO BOARD (SEQ,TITLE,CONTENTS,REG_ID,REG_DATE,MOD_DATE) VALUES ((SELECT MAX(SEQ)+1 FROM BOARD),#{TITLE},#{CONTENTS},#{REGID},SYSDATE,SYSDATE)
+	</update>
+</mapper>

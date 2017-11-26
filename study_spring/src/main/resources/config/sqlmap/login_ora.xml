@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login">
+	<select id="selectUserInfo" parameterType="UserVO" resultType="UserVO">
+	 	SELECT USER_ID, USER_NM, EMAIL 
+	 	FROM CM_USER 
+	 	WHERE USER_ID =#{userId} AND USER_PW =#{userPw}
+	</select>
+	
+	<select id="selectUserCount" parameterType="UserVO" resultType="Integer">
+		SELECT COUNT(*) FROM CM_USER WHERE USER_ID = #{userId}
+	</select>
+
+	<update id="insertUserInfo" parameterType="UserVO">
+		INSERT INTO CM_USER(USER_ID, USER_PW, USER_NM, EMAIL) VALUES (#{userId},#{userPw},#{userNm},#{email}) 
+	</update>
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
