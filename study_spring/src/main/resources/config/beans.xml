@@ -55,7 +55,5 @@
 	
 	<!-- Advice 클래스를 Bean으로 등록 -->
 	<bean id="performanceAdvice" class="co.kr.ucs.spring.aop.PerformanceAdvice" />
-	
-	
 		 
 </beans>

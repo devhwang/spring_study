@@ -27,8 +27,25 @@ public class BoardService {
 		return boardDAO.selectBoardInfo(board);
 	}
 
-	public List<HashMap> getBoardList(HashMap board)throws SQLException {
-		return boardDAO.selectBoardList(board);
+	public List<HashMap> getBoardList(HashMap searchInfo)throws SQLException {
+		      
+		/*int rowSize = Integer.parseInt((String)searchInfo.get("rowSize")); //group당 몇개의 page를 표현할 것인가//page당 몇개의 row를 표현할 것인가
+		int totalCount = 0;//resultSet 순회시 대입됨, 질의 결과 총 반환되는 row의 갯수      
+		int totalPage = 0;
+		//null이면 1블럭
+		int nowPage = Integer.parseInt((String)searchInfo.get("page")==null?"1":(String)searchInfo.get("page")); //네비게이터; 현재 어떤 페이지를 보고있는가
+		//null이면 1페이지		  
+		int maxRowNum = rowSize * (nowPage);//페이지 네비게이터 최대 페이지
+		int minRowNum = rowSize * (nowPage-1)+1;//페이지 네비게이터 최소페이지
+		
+		String type = "";//검색 타입
+		String keyword = "";//검색 키워드
+		
+		totalCount = rs.getInt("TOTCNT");
+        totalPage = (totalCount/10)+1;
+        System.out.println(totalCount/10);
+		*/
+		return boardDAO.selectBoardList(searchInfo);
 	}
 
 	public String writeNewPost(HashMap board) throws SQLException {

@@ -30,13 +30,13 @@ public class SignService {
 		return true;
 	}
 
-	public String createAccount(UserVO user) throws SQLException {
+	public boolean createAccount(UserVO user) throws SQLException {
 		try {
 			signDAO.insertUserInfo(user);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "계정 등록에 실패하였습니다";
+			return false;
 		}
-		return "계정 등록에 성공하였습니다";
+		return true;
 	}   
 }

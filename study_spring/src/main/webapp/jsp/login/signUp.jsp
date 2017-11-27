@@ -99,7 +99,7 @@ function doJoin(){
 	}
 		
 	$.ajax({
-		url:'<%= request.getContextPath()%>/sign/signup',
+		url:'<%= request.getContextPath()%>/sign/signUp.do',
 		data: {'param' : JSON.stringify(param)},
 		type:'POST',
 		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -159,7 +159,7 @@ function doJoin(){
 				
 				<div class="centered">
 					<input type="button" value="회원가입"  onclick="doJoin()">
-					<input type="button" value="취소" onclick="location.href='../sign/main'">
+					<input type="button" value="취소" onclick="location.href='<%= request.getContextPath()%>/sign/main.do'">
 				</div>
 			</div>
 		</div>

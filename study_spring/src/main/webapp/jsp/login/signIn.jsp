@@ -83,7 +83,7 @@
 					alert(data['success']);
 				}
 				
-				location.href='<%= request.getContextPath()%>/board/main'
+				location.href='<%= request.getContextPath()%>/board/main.do'
 			}
 		});
 	}
@@ -99,7 +99,7 @@
 					<form id="loginForm">
 					<table>
 						<tr>
-							<th>아이디*</th>
+							<th>아이디</th>
 							<td><input type="text" id="USER_ID" name="USER_ID" size="8" placeholder=""></td>
 						</tr>
 						<tr>
@@ -112,7 +112,7 @@
 				
 				<div class="centered">
 					<input type="button" value="로그인" onclick="doLogin()">
-					<input type="button" value="회원가입" onclick="location.href='<%= request.getContextPath()%>/sign/form'">
+					<input type="button" value="회원가입" onclick="location.href='<%= request.getContextPath()%>/sign/form.do'">
 				</div>
 				
 			</div>
