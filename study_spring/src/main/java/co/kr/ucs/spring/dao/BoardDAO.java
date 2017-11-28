@@ -20,8 +20,8 @@ public class BoardDAO {
 	private SqlSession sqlSession;
 	
 	   
-	public int selectRowCount(HashMap board)throws SQLException{
-		return sqlSession.selectOne("board.selectRowCount", board);
+	public int selectTotalCount(HashMap board)throws SQLException{
+		return sqlSession.selectOne("board.selectTotalCount", board);
 	}
 	
 	public HashMap selectBoardInfo(HashMap board)throws SQLException {

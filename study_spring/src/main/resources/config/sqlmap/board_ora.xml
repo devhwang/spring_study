@@ -4,19 +4,19 @@
 <mapper namespace="board">
 	
 	<sql id="searchCondition">
-		<if test="KEYWORD != null and KEYWORD == ''">
+		<if test="KEYWORD != null and !KEYWORD.equals('')">
              <choose>
-              	<when test="TYPE == TITLE">
-              		AND B.TITLE LIKE #{KEYWORD}
+              	<when test="TYPE == 'TITLE'">
+              		AND B.TITLE LIKE '%'||#{KEYWORD}||'%' 
               	</when>
-              	<when test="TYPE == NAME">
-              		AND U.USER_NM LIKE #{KEYWORD}
+              	<when test="TYPE == 'NAME'">
+              		AND U.USER_NM LIKE '%'||#{KEYWORD}||'%' 
             	</when>
              </choose>
         </if>
 	</sql>
 	
-	<select id="selectRowCount" resultType="Integer">
+	<select id="selectTotalCount" resultType="Integer">
 		SELECT COUNT(*)
 		FROM BOARD B, CM_USER U
 		WHERE B.REG_ID = U.USER_ID

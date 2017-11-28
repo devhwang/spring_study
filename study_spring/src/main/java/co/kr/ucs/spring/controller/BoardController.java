@@ -41,8 +41,7 @@ public class BoardController{
 		String msg = "";//사용자에게 출력할 메시지
 		Boolean isSuccess = false; //성공여부
 		HashMap result = new HashMap();  //반환할 결과
-		HashMap searchInfo = new HashMap();//페이징 정보
-		HashMap brdInfo = new HashMap();//게시물 정보
+		HashMap searchInfo = new HashMap();//게시물 정보
 		
 		JsonElement jsonObj =null;
 		  
@@ -51,11 +50,11 @@ public class BoardController{
 		   jsonObj = (JsonElement)parser.parse(param);
 		}
 		
-		searchInfo.put("blockSize", jsonObj.getAsJsonObject().get("blockSize").getAsString());
-        searchInfo.put("rowSize", jsonObj.getAsJsonObject().get("rowSize").getAsString());
-        searchInfo.put("page", jsonObj.getAsJsonObject().get("page").getAsString());
-        searchInfo.put("type", jsonObj.getAsJsonObject().get("type").getAsString());
-        searchInfo.put("keyword", jsonObj.getAsJsonObject().get("keyword").getAsString());
+		searchInfo.put("BLOCKSIZE", jsonObj.getAsJsonObject().get("BLOCKSIZE").getAsString());
+		searchInfo.put("ROWSIZE", jsonObj.getAsJsonObject().get("ROWSIZE").getAsString());
+		searchInfo.put("PAGE", jsonObj.getAsJsonObject().get("PAGE").getAsString());
+		searchInfo.put("TYPE", jsonObj.getAsJsonObject().get("TYPE").getAsString());
+		searchInfo.put("KEYWORD", jsonObj.getAsJsonObject().get("KEYWORD").getAsString());
         
         result.put("list", board.getBoardList(searchInfo));
         result.put("searchInfo", searchInfo);

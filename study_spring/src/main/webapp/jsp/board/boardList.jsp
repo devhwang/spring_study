@@ -16,8 +16,8 @@
       totalPage : 0,
       pageNum : 0,
       page : "<%= request.getParameter("page")==null? 1 : request.getParameter("page")%>",
-      type : "<%= request.getParameter("type")==null? 1 : request.getParameter("type")%>",
-      keyword : "<%= request.getParameter("keyword")==null? 1 : request.getParameter("keyword")%>",
+      type : "<%= request.getParameter("type")==null? "TITLE" : request.getParameter("type")%>",
+      keyword : "<%= request.getParameter("keyword")==null? "" : request.getParameter("keyword")%>",
       contents : {}
    }
       
@@ -35,14 +35,14 @@
 	  boardObj.type = $("#S_TYPE").val();
 	   
       var param = {};
-      param["blockSize"] = boardObj.blockSize;
-      param["rowSize"] = boardObj.rowSize;
-      param["page"] = boardObj.page;
-      param["type"] = boardObj.type;
-      param["keyword"] = boardObj.keyword;
+      param["BLOCKSIZE"] = boardObj.blockSize;
+      param["ROWSIZE"] = boardObj.rowSize;
+      param["PAGE"] = boardObj.page;
+      param["TYPE"] = boardObj.type;
+      param["KEYWORD"] = boardObj.keyword;
       
       $.ajax({
-         url:'<%= path%>/board/list.do',
+         url:'<%= path%>/board/boardList.do',
          data: {'param' : JSON.stringify(param)},
          type:'POST',
          contentType:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -55,9 +55,9 @@
             if(data['error']){ alert(data['error']); return; }            
             if(data['success']){ alert(data['success']); }
             
-            boardObj.totalCount   = parseInt(data["searchInfo"]["totalCount"]);
-            boardObj.totalPage   = parseInt(data["searchInfo"]["totalPage"]);
-            boardObj.contents = JSON.parse(JSON.stringify(data["list"]));//DeepCopy
+            boardObj.totalCount   = parseInt(data["searchInfo"]["TOTALCOUNT"]);
+            boardObj.totalPage   = parseInt(data["searchInfo"]["TOTALPAGE"]);
+            boardObj.contents = JSON.parse(JSON.stringify(data["list"]));
             
          }
       });
@@ -217,8 +217,8 @@
          <tr>
             <td>
                <select id="S_TYPE" >
-                   <option value="title">제목</option>
-                  <option value="name">작성자</option>
+                   <option value="TITLE">제목</option>
+                  <option value="NAME">작성자</option>
                </select>
             </td>
             <td>
@@ -239,11 +239,7 @@
        <div id="navigator" class="centered">
             <!-- 페이징 영역 -->
       </div>  
-      
-      
       </div>   
-      
-      
     </div>
   </div>
 </div> 
