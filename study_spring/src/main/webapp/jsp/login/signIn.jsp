@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!-- 
 1. 경로 및 파일명 : WebContent > jsp > login > signIn.jsp
 2. 로그인 클릭시 아이디, 비밀번호에 입력값이 있는지 확인
@@ -16,8 +15,22 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 화면</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style type="text/css">
+
+.login-button{
+	margin-top: 5px;
+}
+
+.login-register{
+	font-size: 11px;
+	text-align: center;
+}
+
+</style>
+<!-- <style type="text/css">
 	
 	table {
 		border-collapse: collapse;
@@ -41,8 +54,8 @@
 		float: left;
 		margin: 0 auto;
 	}
-</style>
-</head>
+</style> -->
+
 <script>
 	function doLogin(){
 		var userId = $("#USER_ID");
@@ -88,35 +101,35 @@
 		});
 	}
 </script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <body>
 	<div class="container">
-		<div class="outer">
-			<div class="inner">
-			
-				<div class="centered">		
-					<div class="title">로그인</div>
-					<form id="loginForm">
-					<table>
-						<tr>
-							<th>아이디</th>
-							<td><input type="text" id="USER_ID" name="USER_ID" size="8" placeholder=""></td>
-						</tr>
-						<tr>
-							<th>비밀번호</th>
-							<td><input type="password" id="USER_PW"  name="USER_PW" size="8" placeholder=""></td>		
-						</tr>
-					</table>
-					</form>
-				</div>	
+		<div class="col-sm-4"></div>
+		
+		<div class="col-sm-4">
+			<div class="row">
+				<h2>로그인</h2>
+				<hr>
+				<form id="loginForm">
+					<div class="form-group">
+							<input class="form-control" type="text" id="USER_ID" name="USER_ID" size="8" placeholder="아이디를 입력하세요">
+					</div>
+					<div class="form-group">
+							<input class="form-control" type="password" id="USER_PW"  name="USER_PW" size="8" placeholder="암호를 입력하세요">
+					</div>
+				</form>
+			</div>
+			<div class="row">
 				
-				<div class="centered">
-					<input type="button" value="로그인" onclick="doLogin()">
-					<input type="button" value="회원가입" onclick="location.href='<%= request.getContextPath()%>/sign/form.do'">
+				<div class="form-group">
+					<button type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="doLogin()">로그인</button>
 				</div>
-				
+				<div class="login-register">
+			        <a href='<%= request.getContextPath()%>/sign/form.do'>회원가입</a>
+			    </div>
 			</div>
 		</div>
+		<div class="col-sm-4"></div>
 	</div>
 </body>
 </html>

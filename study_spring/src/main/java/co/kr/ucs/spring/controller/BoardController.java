@@ -33,8 +33,20 @@ public class BoardController{
 		mav.setViewName("board/boardList");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/board/readForm.do")
+	public ModelAndView boardReadForm(ModelAndView mav) throws Exception{
+		mav.setViewName("board/boardRead");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/board/writeForm.do")
+	public ModelAndView boardWriteForm(ModelAndView mav) throws Exception{
+		mav.setViewName("board/boardWrite");
+		return mav;
+	}
 
-	@RequestMapping(value = "/board/boardList.do")
+	@RequestMapping(value = "/board/list.do")
 	@ResponseBody
 	public void boardList(@RequestParam(value="param") String param, HttpServletRequest request, ServletResponse response) throws Exception{
 
@@ -59,6 +71,78 @@ public class BoardController{
         result.put("list", board.getBoardList(searchInfo));
         result.put("searchInfo", searchInfo);
 
+		if(isSuccess == false) {
+		   result.put("error", msg);
+		}else {
+		   result.put("success", msg);
+		}
+		Gson gson = new Gson();
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(gson.toJson(result));
+	}
+	
+	
+	@RequestMapping(value = "/board/read.do")
+	@ResponseBody
+	public void boardRead(@RequestParam(value="param") String param, HttpServletRequest request, ServletResponse response) throws Exception{
+
+		String msg = "";//사용자에게 출력할 메시지
+		Boolean isSuccess = false; //성공여부
+		HashMap result = new HashMap();  //반환할 결과
+		HashMap boardInfo = new HashMap();//게시물 정보
+		
+		JsonElement jsonObj =null;
+		  
+		if(param != null){
+		   JsonParser parser = new JsonParser();
+		   jsonObj = (JsonElement)parser.parse(param);
+		}
+		
+		String seq = jsonObj.getAsJsonObject().get("seq").getAsString();
+  	  	String page = jsonObj.getAsJsonObject().get("page").getAsString();
+  	  
+  	  	boardInfo.put("SEQ", seq);
+  	  	boardInfo.put("PAGE", page);
+  	  	
+	    result.put("brdInfo", board.getBoardInfo(boardInfo));
+
+		if(isSuccess == false) {
+		   result.put("error", msg);
+		}else {
+		   result.put("success", msg);
+		}
+		Gson gson = new Gson();
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(gson.toJson(result));
+	}
+	
+	@RequestMapping(value = "/board/write.do")
+	@ResponseBody
+	public void boardWrite(@RequestParam(value="param") String param, HttpServletRequest request, ServletResponse response) throws Exception{
+
+		String msg = "";//사용자에게 출력할 메시지
+		Boolean isSuccess = false; //성공여부
+		HashMap result = new HashMap();  //반환할 결과
+		HashMap boardInfo = new HashMap();//게시물 정보
+		
+		JsonElement jsonObj =null;
+		  
+		if(param != null){
+		   JsonParser parser = new JsonParser();
+		   jsonObj = (JsonElement)parser.parse(param);
+		}
+		
+		boardInfo.put("TITLE", jsonObj.getAsJsonObject().get("TITLE").getAsString());
+        boardInfo.put("CONTENTS", jsonObj.getAsJsonObject().get("CONTENTS").getAsString());
+        boardInfo.put("REG_ID", request.getSession().getAttribute("USER_ID"));
+        
+        if(board.writeNewPost(boardInfo)){
+           msg = "성공적으로 글을 등록했습니다";
+           isSuccess = true;
+        }else{
+           msg = "등록에 실패하였습니다. 다시 시도해주세요";
+        }
+        
 		if(isSuccess == false) {
 		   result.put("error", msg);
 		}else {

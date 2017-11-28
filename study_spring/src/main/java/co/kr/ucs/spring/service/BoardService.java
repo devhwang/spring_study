@@ -46,13 +46,13 @@ public class BoardService {
 		return boardDAO.selectBoardList(searchInfo);
 	}
 
-	public String writeNewPost(HashMap board) throws SQLException {
+	public boolean writeNewPost(HashMap board) throws SQLException {
 		try {
 			boardDAO.insertBoardInfo(board);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "게시물 등록에 실패하였습니다";
+			return false;
 		}
-		return "게시물 등록에 성공하였습니다";
+		return true;
 	}   
 }

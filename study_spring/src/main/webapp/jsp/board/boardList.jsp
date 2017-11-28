@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
    var boardObj = {
@@ -42,7 +44,7 @@
       param["KEYWORD"] = boardObj.keyword;
       
       $.ajax({
-         url:'<%= path%>/board/boardList.do',
+         url:'<%= path%>/board/list.do',
          data: {'param' : JSON.stringify(param)},
          type:'POST',
          contentType:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -142,10 +144,10 @@
       $("#navigator").append(lastStep);
  	}    
    function fn_write(){
-      location.href="<%=path %>/board/form";
+      location.href="<%=path %>/board/writeForm.do";
    }
    function goDetail(seq){
-	   location.href="<%=path %>/board/read?seq="+seq+"&page="+boardObj.page+"&type="+boardObj.type+"&keyword="+boardObj.keyword;
+	   location.href="<%=path %>/board/readForm.do?seq="+seq+"&page="+boardObj.page+"&type="+boardObj.type+"&keyword="+boardObj.keyword;
    }
    
    

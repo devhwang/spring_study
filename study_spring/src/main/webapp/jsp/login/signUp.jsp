@@ -18,8 +18,9 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 화면</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css" type="text/css">
-<style type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- <style type="text/css">
 	
 	table {
 		border-collapse: collapse;
@@ -42,7 +43,7 @@
 		float: left;
 		margin: 0 auto;
 	}
-</style>
+</style> -->
 </head>
 <script>
 function doJoin(){
