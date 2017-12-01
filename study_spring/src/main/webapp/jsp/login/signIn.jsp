@@ -49,15 +49,18 @@
 			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
 			dataType:'json',
 			error:function(request,status,error){
-		    	alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+		    	//alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+		    	alert("잘못된 요청입니다"); //에러상황
 		    },
 			success:function(data){
+				
 				if(data['error']){
 					fn_setAlert("ERROR",data['error']);
 					return;
 				}
 				
 				if(data['success']){
+					
 					alert(data['success']);
 				}
 				

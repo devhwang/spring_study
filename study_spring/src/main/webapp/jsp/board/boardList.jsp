@@ -64,16 +64,14 @@
          dataType:'json',
          async : false,
          error:function(request,status,error){
-             alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+             //alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+             alert("잘못된 요청입니다"); //에러상황
+             location.href = "<%= path%>";
           },
-         success:function(data){
-            if(data['error']){ alert(data['error']); return; }            
-            if(data['success']){ alert(data['success']); }
-            
+         success:function(data){            
             boardObj.totalCount   = parseInt(data["searchInfo"]["TOTALCOUNT"]);
             boardObj.totalPage   = parseInt(data["searchInfo"]["TOTALPAGE"]);
             boardObj.contents = JSON.parse(JSON.stringify(data["list"]));
-            
          }
       });
    }

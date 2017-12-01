@@ -17,17 +17,6 @@ import co.kr.ucs.spring.controller.BoardController;
 public class LoggingAspect {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
-	
-/*	//Around Advice : 타겟의 메서드가 호출되기 이전(before)시점과 이후(after) 시점에 모두 처리해야할 필요가 있는 부가기능을 정의한다
-	@Around("execution(public * co.kr.ucs.spring..*(..))")
-	public void Around(JoinPoint joinPoint) {
-		String signatureString = joinPoint.getSignature().getName();	
-		logger.info("@Around [ " + signatureString + " ] 메서드 실행 전후처리 수행");		
-		for (Object arg : joinPoint.getArgs()) {
-			logger.info("@Around [ " + signatureString + " ] 아규먼트 " + arg);			
-		}
-		//Joinpoint 앞과 뒤에서 실행되는 Advice
-	}*/
 
 	//타겟의 메서드가 실행 되기 이전(before) 시점에 처리해야할 필요가 있는 부가기능을 정의한다
     @Before("execution(public * co.kr.ucs.spring..*(..))")

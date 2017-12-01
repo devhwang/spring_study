@@ -41,18 +41,36 @@ public class BoardService {
         int totalPage = (totalCount/10)+1;
         
         searchInfo.put("TOTALCOUNT", totalCount);
-        searchInfo.put("TOTALPAGE", totalPage);
+        searchInfo.put("TOTALPAGE", totalPage);   
         
 		return boardDAO.selectBoardList(searchInfo);
 	}
 
-	public boolean writeNewPost(HashMap board) throws SQLException {
+	public boolean writePost(HashMap board) throws SQLException {
 		try {
-			boardDAO.insertBoardInfo(board);
+			if(board.get("SEQ").equals("") || board.get("SEQ")==null) {
+				if(boardDAO.insertBoardInfo(board) == 0)
+					return false;
+			}else{
+				if(boardDAO.updateBoardInfo(board) == 0)
+					return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}   
+	
+	public boolean deletePost(HashMap board) throws SQLException {
+		try {
+			if(boardDAO.deleteBoardInfo(board) == 0) {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}  
 }

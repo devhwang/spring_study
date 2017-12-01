@@ -26,6 +26,13 @@
 	    .nav-collapse>li { float: none; }
 	}
 </style>
+<script>
+	function fn_logout(){
+		if(confirm("정말 로그아웃 하시겠습니까?")){
+			location.href = "<%= path%>/sign/logout.do";
+		}
+	}
+</script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <!-- Second navbar for sign in -->
     <nav class="navbar navbar-default">
@@ -38,17 +45,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">UCS Study</a>
+          <a class="navbar-brand" href="<%= path%>/board/main.do"><strong>UCS Study</strong></a>
         </div>
     
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-2">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Board</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#"><%=session.getAttribute("USER_NM")%><small>(<%=session.getAttribute("USER_ID")%>)님 환영합니다.</small></a></li>
             <li>
-              <a class="btn btn-default btn-outline btn-circle" href="<%= path%>/sign/logout.do">Logout</a>
+              <a class="btn btn-default btn-outline btn-circle" href="javascript:void(0);" onclick="javacript:fn_logout()">Logout</a>
             </li>
           </ul>
         </div><!-- /.navbar-collapse -->

@@ -17,7 +17,6 @@ public class CommonIntercepter extends HandlerInterceptorAdapter {
 
 	/*
 	 * HandlerInterceptor 인터페이스
-	 * 
 	 * - HandlerInterceptorAdapter 추상 클래스를 지원한다. => 요녀석은 위의 인터페이스를 사용하기 쉽게 구현해 놓은
 	 * 추상클래스. // preHandle() : 컨트롤러보다 먼저 수행되는 메서드
 	 */
@@ -51,15 +50,6 @@ public class CommonIntercepter extends HandlerInterceptorAdapter {
 		 * 객체에 컨트롤러에서 전달해 온 Model 객체가 전달됨으로 컨트롤러에서 작업 후 : postHandle() 에서 작업할 것이 있다면
 		 * ModelAndView를 이용하면 된다.
 		 */
-
-		String userId = (String) request.getSession().getAttribute("USER_ID");
-		PrintWriter writer = response.getWriter();
-
-		if (userId.equals("") || userId == null) {
-			writer.println("<script>alert('Delete Success'); location.href='/member/list';</script>");
-			response.sendRedirect("/board/main.do");
-		}
-
 		logger.info("[컨트롤러를 실행한 이후입니다]");
 	}
 
@@ -68,7 +58,7 @@ public class CommonIntercepter extends HandlerInterceptorAdapter {
 			throws Exception {
 		// 컨트롤러 실행 직전: 컨트롤러가 수행되고 화면처리까지 끝난 뒤 호출된다.
 
-		logger.info("[브라우저에게 응답되기 직전입니다]");
+		logger.info("[컨트롤러가 수행되고 화면처리까지 끝난 뒤 호출]");
 	}
 
 }

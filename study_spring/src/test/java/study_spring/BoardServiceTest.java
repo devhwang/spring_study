@@ -37,7 +37,7 @@ public class BoardServiceTest {
 	@Test@Ignore
 	public void newPost() throws Exception{
 		System.out.println(boardInfo.get("TITLE"));
-		System.out.println(boardService.writeNewPost(boardInfo));
+		System.out.println(boardService.writePost(boardInfo));
 	}
 	
 	@Test@Ignore

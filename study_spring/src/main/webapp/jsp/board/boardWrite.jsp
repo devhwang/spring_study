@@ -7,9 +7,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>글 작성</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script>
+
+	window.onload = function(){
+
+	    if("${param.seq}" != ""){
+			$("#menuTitle").html("게시글 수정 <small>Edit post</small>");
+		}
+		
+		fn_search();
+	}
+
+	function fn_search(){
+	    var param = {};
+	    
+	    param["seq"] = "${param.seq}";
+	    
+	    $.ajax({
+	       url:'<%= path%>/board/read.do',
+	       data: {'param' : JSON.stringify(param)},
+	       type:'POST',
+	       contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	       dataType:'json',
+	       error:function(request,status,error){
+	           //alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+	    	   alert("잘못된 요청입니다"); //에러상황
+	        },
+	       success:function(data){
+			$("#TITLE").val(data["brdInfo"]["TITLE"]);
+			$("#CONTENTS").html(data["brdInfo"]["CONTENTS"].replace(/<br>/g, "\n"));
+	       }
+	    });
+	    
+	 }
+
 	function fn_submit(){
 		
 		var title = $("#TITLE");
@@ -27,7 +60,8 @@
 		
 		var param = {
 			"TITLE" : title.val(),
-			"CONTENTS" : contents.val()
+			"CONTENTS" : contents.val().replace(/\n/g, "<br>"),
+			"SEQ" : "${param.seq}"
 		}
 	
 		$.ajax({
@@ -37,7 +71,8 @@
 			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
 			dataType:'json',
 			error:function(request,status,error){
-		    	alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+		    	//alert("[error code] : "+ request.status + "\n\n[message] :\n\n " + request.responseText + "\n[error msg] :\n " + error); //에러상황
+		    	alert("잘못된 요청입니다"); //에러상황
 		    },
 			success:function(data){
 				if(data['error']){
@@ -61,7 +96,7 @@
 	<div class="container">
 		<div class="container">
 			<h2>
-				신규 게시글 작성 <small>Board Write</small>
+				<span id="menuTitle">신규 게시글 작성 <small>New post</small></span>
 			</h2>
 			<hr>
 			<div class="row">
@@ -92,12 +127,10 @@
 		</div>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-8"></div>
+				<div class="col-sm-10"></div>
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-primary btn-block" onclick="fn_submit()">저장</button>
-				</div>
-				<div class="col-sm-2">
-					<button type="button" class="btn btn-default btn-block" onclick="history.back(-1)">취소</button>
+					<button type="button" class="btn btn-default pull-right" onclick="history.back(-1)">취소</button>
+					<button type="button" class="btn btn-primary pull-right" onclick="fn_submit()">저장</button>
 				</div>
 			</div>
 		</div>

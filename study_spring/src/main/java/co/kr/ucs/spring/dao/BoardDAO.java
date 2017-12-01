@@ -35,4 +35,12 @@ public class BoardDAO {
 	public int insertBoardInfo(HashMap board)throws SQLException{
 		return sqlSession.update("board.insertBoardInfo", board);
 	}
+	
+	public int updateBoardInfo(HashMap board)throws SQLException{
+		return sqlSession.update("board.updateBoardInfo", board);
+	}
+	
+	public int deleteBoardInfo(HashMap board)throws SQLException{
+		return sqlSession.update("board.deleteBoardInfo", board);
+	}
 }
