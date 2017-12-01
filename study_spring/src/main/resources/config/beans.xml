@@ -7,10 +7,12 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<context:annotation-config></context:annotation-config>
@@ -37,8 +39,16 @@
 				<value>classpath:/config/sqlmap/board_ora.xml</value>
 			</list>
 		</property>
-	</bean>	
-	
+	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/sign/**" />
+			<bean id="commonIntercepter" class="co.kr.ucs.spring.intercepter.CommonIntercepter" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
@@ -50,10 +60,43 @@
 		<aop:aspect id="performanceAspect" ref="performanceAdvice">
 			<aop:around pointcut="execution(public * co.kr.ucs.spring.service..*(..)))" method="trace" />
 			<!-- 메서드 호출 이전, 이후 예외발생 등 모든 시점에 적용가능한 어드바이스를 정의한다 -->
-		</aop:aspect>		
+		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(public * co.kr.ucs.spring.service..*(..)))"
+			id="serviceTx" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceTx" />		
 	</aop:config>
 	
 	<!-- Advice 클래스를 Bean으로 등록 -->
 	<bean id="performanceAdvice" class="co.kr.ucs.spring.aop.PerformanceAdvice" />
-		 
+	
+	<!-- Transaction 설정하기 --> <!-- Transaction Manager 설정 commit, rollback -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+	
+	<!-- Transaction 대상 설정 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" rollback-for="RuntimeException" />
+			<tx:method name="write*" rollback-for="RuntimeException" />
+			<tx:method name="add*" rollback-for="RuntimeException" />
+			<tx:method name="create*" rollback-for="RuntimeException" />
+			<tx:method name="regist*" rollback-for="RuntimeException" />
+			<tx:method name="set*" rollback-for="RuntimeException" />
+			<tx:method name="update*" rollback-for="RuntimeException" />
+			<tx:method name="modify*" rollback-for="RuntimeException" />
+			<tx:method name="edit*" rollback-for="RuntimeException" />
+			<tx:method name="change*" rollback-for="RuntimeException" />
+			<tx:method name="delete*" rollback-for="RuntimeException" />
+			<tx:method name="remove" rollback-for="RuntimeException" />
+			<tx:method name="terminate*" rollback-for="RuntimeException" />
+			<tx:method name="read*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
 </beans>

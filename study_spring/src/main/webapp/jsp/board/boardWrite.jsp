@@ -2,39 +2,13 @@
 <%	request.setCharacterEncoding("UTF-8");
 	String path = request.getContextPath();
 %>
-<!-- 
-1. HTML로 게시판 입력 페이지를 작성
-2. 경로 및 파일명 : WebContent > html > boradWrite.html
-3. 내용 입력란은 textarea로 생성 
- -->
+<jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- <style type="text/css">
-		
-	#view {
-		border-collapse: collapse;
-		border-top: 1px solid black;
-		border-left: 1px solid black;
-	}  
-	
-	#view th, #view td {
-		border-bottom: 1px solid black;
-		border-right: 1px solid black;
-	}
-	
-	#view/* 글작성 폼 영역 */
-	{
-		width: 100%;
-		text-align: left;
-	}
-	
-	
-</style> -->
 <script>
 	function fn_submit(){
 		
@@ -84,34 +58,50 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-
-<div class="container">
-  <div class="outer">
-    <div class="inner">
-   		<div class="centered">
-	   		<div class="title">◎  게시판 입력</div>
-			<form id="boardWriteForm">
-		   		<table id="view">
-					<tr>
-						<th style="width: 30%">제목</th>
-						<td><input type="text" id="TITLE" name="TITLE" style="width:99%;" autofocus="autofocus"></td>
-					</tr>
-					<tr>
-						<th>내용</th>
-						<td style="width: 70%">
-							<textarea id="CONTENTS" name="CONTENTS" rows="" cols="" style="width:99%; height:200px;"></textarea> 
-						</td>
-					</tr>
-				</table>
-			</form>
+	<div class="container">
+		<div class="container">
+			<h2>
+				신규 게시글 작성 <small>Board Write</small>
+			</h2>
+			<hr>
+			<div class="row">
+				<div class="col-sm-12">
+					<form id="boardWriteForm" class="form-horizontal">
+						<div class="form-group">
+							<label for="USER_NM" class="control-label col-sm-1">작성자</label>
+							<div class="col-sm-11">
+								<input type="text" id="USER_NM" class="form-control" name="USER_NM" autofocus="autofocus" placeholder="작성자"
+								 value='<%= session.getAttribute("USER_NM") %> (<%=session.getAttribute("USER_ID")%>)' disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="TITLE" class="control-label col-sm-1">제목</label>
+							<div class="col-sm-11">
+								<input type="text" id="TITLE" class="form-control" name="TITLE" autofocus="autofocus" placeholder="제목">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="CONTENTS" class="control-label col-sm-1">내용</label>
+							<div class="col-sm-11">
+								<textarea id="CONTENTS" class="form-control" name="CONTENTS" rows="" cols="" style="height: 200px;" placeholder="내용"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="centered">
-			<input type="button" value="저장" onclick="fn_submit()">
-			<input type="button" value="취소" onclick="history.back(-1)">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8"></div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-primary btn-block" onclick="fn_submit()">저장</button>
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-default btn-block" onclick="history.back(-1)">취소</button>
+				</div>
+			</div>
 		</div>
-    </div>
-  </div>
-</div>
+	</div>
 
 
 </body>

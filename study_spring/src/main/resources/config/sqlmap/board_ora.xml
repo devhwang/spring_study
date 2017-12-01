@@ -12,6 +12,9 @@
               	<when test="TYPE == 'NAME'">
               		AND U.USER_NM LIKE '%'||#{KEYWORD}||'%' 
             	</when>
+            	<when test="TYPE == 'USER_ID'">
+              		AND U.USER_ID LIKE '%'||#{KEYWORD}||'%' 
+            	</when>
              </choose>
         </if>
 	</sql>

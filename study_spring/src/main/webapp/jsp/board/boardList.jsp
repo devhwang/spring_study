@@ -1,15 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.io.*, java.sql.*, java.util.*"%>
-<%
-   String path = request.getContextPath();
-%>
+<%   String path = request.getContextPath(); %>
+<jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<style>
+	.pagination{
+		display:block;
+		text-align:center;
+	}
+	
+	.pagination > li > a{
+		float : none;
+	}
+	
+	tr, tr > th{
+		text-align:center;
+	}
+
+</style>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
    var boardObj = {
       blockSize: 10,
@@ -80,7 +93,7 @@
 		  for(var i in board){
 	         str += "<tr><td>"+board[i].SEQ+"</td>"
 	         str += "<td><a href='javascript:goDetail("+board[i].SEQ+");'>"+board[i].TITLE+"</a></td>"
-	         str += "<td>"+board[i].REG_NM+"</td>"
+	         str += "<td>"+board[i].REG_NM+"<span><small>("+board[i].REG_ID+")</small></span></td>"
 	         str += "<td>"+board[i].REG_DATE+"</td></tr>"
 		  }
 	  }
@@ -118,30 +131,29 @@
       }
       
       if(pageGroup!=1){
-	      var firstStep = " <input type='button' onclick='javascript:drawPage(1);' value='&lt;&lt;'</input>";
-	      var prevStep = " <input type='button' onclick='javascript:drawPage("+goPrev+");' value='&lt;'</input>";
+	      var firstStep = "<li><a href='javascript:drawPage(1);'><strong>First</strong></a></li>";
+	      var prevStep = " <li><a href='javascript:drawPage("+goPrev+");' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>";
       }
       
   	  if(next < totalPage){
-	      var nextStep = " <input type='button' onclick='javascript:drawPage("+goNext+");' value='&gt;'</input>";
-	      var lastStep = " <input type='button' onclick='javascript:drawPage("+totalPage+");' value='&gt;&gt;'</input>";
+	      var nextStep = " <li><a href='javascript:drawPage("+goNext+");'><span aria-hidden='true'>&raquo;</span></a></li>";
+	      var lastStep = " <li><a href='javascript:drawPage("+totalPage+");'><strong>Last</strong></a></li>";
       }
       
       $("#navigator").empty();
       $("#navigator").append(firstStep);
       $("#navigator").append(prevStep);
-      
       for(var i=prev; i<=next;i++){
           if(i == page ){
-             pageNum = "<strong>"+i+"</strong> ";   
+             pageNum = "<li class='active'><a href='#'><strong>"+i+"</strong></a><li>";   
           }else{
-             pageNum = "<a href='javascript:drawPage("+i+")'>"+i+"</a>&nbsp;";
+             pageNum = "<li><a href='javascript:drawPage("+i+")'>"+i+"</a></li>";
           }
           $("#navigator").append(pageNum);
-      }
-      
+      }      
       $("#navigator").append(nextStep);   
       $("#navigator").append(lastStep);
+      
  	}    
    function fn_write(){
       location.href="<%=path %>/board/writeForm.do";
@@ -149,102 +161,69 @@
    function goDetail(seq){
 	   location.href="<%=path %>/board/readForm.do?seq="+seq+"&page="+boardObj.page+"&type="+boardObj.type+"&keyword="+boardObj.keyword;
    }
-   
-   
 </script>
+</head>
 <meta charset="UTF-8">
 <title>게시판 메인</title>
-<link rel="stylesheet" href="<%=path %>/css/common.css" type="text/css">
-<style type="text/css">
-      
-   #listview {
-      border-collapse: collapse;
-      border-top: 1px solid black;
-      border-left: 1px solid black;
-   }  
-   #listview th, #listview td {
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-   }
-   
-   #listview/* 리스트영역 */
-   {
-      width: 100%;
-      text-align: center;
-   }
-   
-   #search/* 검색영역  */
-   {
-      width: 350px;
-      text-align: center;
-      border: none 0px grey;
-   }
-   
-   #navigator/* 페이징 영역  */
-   {
-      width: 400px;
-      
-   }
-   
-   #search input[type="button"],  #search select
-   {
-      width: 100%;
-      hegiht : 100%;
-   }
-      
-   ul 
-   {
-       list-style:none;
-       margin:0;
-       padding:0;
-   }
-   li 
-   {
-      width : 10px;
-       margin: 0 3px 0 3px;
-       padding: 0 3px 0 3px;
-       border : 0;
-       float: left;
-   }
-   
-</style>
-</head>
 <body>
-<div class="container">
-  <div class="outer">
-    <div class="inner">
-      <div class="centered">
-         <div class="title">◎  게시판 목록</div>
-      <table id="search">
-         <tr>
-            <td>
-               <select id="S_TYPE" >
-                   <option value="TITLE">제목</option>
-                  <option value="NAME">작성자</option>
-               </select>
-            </td>
-            <td>
-               <input type="text" id="S_KEYWORD" value="" onKeydown="javascript:if(event.keyCode == 13) drawPage(1);" autofocus="autofocus">
-            </td>
-            <td>
-               <input type="button" value='검색' onclick="drawPage(1)">
-            </td>
-            <td>
-               <input type="button" value='글쓰기' onclick="fn_write()">      
-            </td>
-         </tr>
-      </table>
-      <table id="listview">
-         	<!-- 게시글 영역 -->
-      </table>
-               
-       <div id="navigator" class="centered">
-            <!-- 페이징 영역 -->
-      </div>  
-      </div>   
-    </div>
-  </div>
-</div> 
+
+	<div class="container">
+		<div class="container">
+			<h2>
+				게시판 <small>Board</small>
+			</h2>
+			<hr>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-sm-2">
+						<select class="form-control" id="S_TYPE">
+							<option value="TITLE">제목</option>
+							<option value="NAME">작성자</option>
+							<option value="USER_ID">아이디</option>
+						</select>
+					</div>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<input class="form-control" type="text" id="S_KEYWORD" value=""	onKeydown="javascript:if(event.keyCode == 13) drawPage(1);"	autofocus="autofocus">
+							<span class="input-group-btn">
+					        	<button class="btn btn-default" type="button" onclick="drawPage(1)"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;검색</button>
+					      	</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="container">
+			<table id="listview" class="table table-striped table-bordered text-center">
+				<!-- 게시글 영역 -->
+			</table>
+			
+			<div class="row">
+				<div class="form-group">
+					<div class="col-sm-10"></div>
+					<div class="col-sm-2">
+						<button type="button" class="btn btn-primary btn-block"
+							onclick="fn_write()">글쓰기</button>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="container">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<ul id="navigator" class="pagination">
+						<!-- 페이징 영역 -->
+					</ul>
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+		</div>
+		
+		
+		
+	</div>
 
 
 </body>

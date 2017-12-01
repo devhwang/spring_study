@@ -1,8 +1,13 @@
 package co.kr.ucs.spring.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PerformanceAdvice {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PerformanceAdvice.class);
+	
 	//모든 어드바이스는 org.aspectj.lang.JoinPoint 타입의 파라미터를 어드바이스 메서드에 첫번째 매개변수로 선언할 수 있다.
 	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable{//Around 어드바이스는 JoinPoint의 하위 클래스인 ProceedingJointPoint 타입의 파라미터를 필수적으로 선언해야한다. 
 		//getThis() : 프록시 객체를 반환한다
@@ -10,7 +15,7 @@ public class PerformanceAdvice {
 		
 		//타겟 메서드의 signature 정보
 		String signature = joinPoint.getSignature().toShortString();//getSignature(): 어드바이즈되는 메서드의 설명을 반환한다//toShortString() : 어드바이즈되는 메서드의 설명을 출력한다.
-		System.out.println("======================" + signature + "시작");
+		logger.info("======================" + signature + "시작");
 		//타겟의 메서드가 호출되기 전의 시간
 		long start = System.currentTimeMillis();
 		
@@ -21,8 +26,8 @@ public class PerformanceAdvice {
 		}finally {
 			//타겟의 메서드가 호출된 후의 시간
 			long finish = System.currentTimeMillis();
-			System.out.println("======================" + signature + " 종료");
-			System.out.println("======================" + signature + " 실행시간 ("+(finish - start)+ " ms)");
+			logger.info("======================" + signature + " 종료");
+			logger.info("======================" + signature + " 실행시간 ("+(finish - start)+ " ms)");
 		}
 	}
 	
